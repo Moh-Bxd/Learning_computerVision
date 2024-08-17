@@ -9,7 +9,7 @@ while True:
     H, W, _ = frame.shape
     
     mp_face_detection = mp.solutions.face_detection
-    with mp_face_detection.FaceDetection(min_detection_confidence=0.7,model_selection = 0 ) as face_detection:
+    with mp_face_detection.FaceDetection(min_detection_confidence=0.95,model_selection = 0 ) as face_detection:
         rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         out = face_detection.process(rgb)
         if out.detections:
@@ -20,7 +20,9 @@ while True:
                 x1, y1, w, h = int(x1*W), int(y1*H), int(w*W), int(h*H)
                 cv2.rectangle(frame, (x1, y1), (x1+w, y1+h), (0, 255, 0), 2)  
                 cv2.putText(frame, f'{int(detection.score[0]*100)}%', (x1, y1-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
-                                
+                
+                ## Anonymize the face
+                frame[y1:y1+h, x1:x1+w, :]=cv2.blur(frame[y1:y1+h, x1:x1+w, :], (50, 50))
                 
            
         pass
