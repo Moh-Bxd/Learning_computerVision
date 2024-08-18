@@ -1,2 +1,2 @@
-utralytics
+ultralytics 
 numpy
